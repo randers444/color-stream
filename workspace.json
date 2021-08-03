@@ -1,6 +1,79 @@
 {
   "version": 2,
   "projects": {
+    "color-state": {
+      "root": "libs/color-state",
+      "sourceRoot": "libs/color-state/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/workspace:tsc",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "apps/web-ui/src/dist",
+            "main": "libs/color-state/src/index.ts",
+            "tsConfig": "libs/color-state/tsconfig.lib.json",
+            "assets": ["libs/color-state/*.md"]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/color-state/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/color-state"],
+          "options": {
+            "jestConfig": "libs/color-state/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "svg": {
+      "root": "libs/svg",
+      "sourceRoot": "libs/svg/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/svg/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/svg"],
+          "options": {
+            "jestConfig": "libs/svg/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "web-data": {
+      "root": "libs/web-data",
+      "sourceRoot": "libs/web-data/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/web-data/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/web-data"],
+          "options": {
+            "jestConfig": "libs/web-data/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "web-ui": {
       "root": "apps/web-ui",
       "sourceRoot": "apps/web-ui/src",
@@ -15,7 +88,12 @@
             "main": "apps/web-ui/src/main.tsx",
             "polyfills": "apps/web-ui/src/polyfills.ts",
             "tsConfig": "apps/web-ui/tsconfig.app.json",
-            "assets": ["apps/web-ui/src/favicon.ico", "apps/web-ui/src/assets"],
+            "assets": [
+              "apps/web-ui/src/favicon.ico",
+              "apps/web-ui/src/assets",
+              "apps/web-ui/src/dist/src/index.js",
+              "apps/web-ui/src/dist/src/index.js.map"
+            ],
             "styles": ["apps/web-ui/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"

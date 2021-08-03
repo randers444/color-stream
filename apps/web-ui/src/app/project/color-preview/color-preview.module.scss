@@ -1,0 +1,5 @@
+@import '~@carbon/elements/scss/type';
+
+.color-preview-value {
+  @include carbon--type-style('code-01');
+}

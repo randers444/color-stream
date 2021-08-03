@@ -27,6 +27,15 @@
     ]
   },
   "projects": {
+    "color-state": {
+      "tags": []
+    },
+    "svg": {
+      "tags": []
+    },
+    "web-data": {
+      "tags": []
+    },
     "web-ui": {
       "tags": []
     },

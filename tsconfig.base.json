@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@colorstream/color-state": ["libs/color-state/src/index.ts"],
+      "@colorstream/svg": ["libs/svg/src/index.ts"],
+      "@colorstream/web-data": ["libs/web-data/src/index.ts"]
+    },
+    "strict": true
   },
   "exclude": ["node_modules", "tmp"]
 }
