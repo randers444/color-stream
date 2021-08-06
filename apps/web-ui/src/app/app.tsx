@@ -15,7 +15,7 @@ export function App() {
     <DataContext.Provider value={new DataSource()}>
       <Router>
         <AppHeader />
-        <Content>
+        <Content >
           <Switch>
             <Route path="/projects/:id">
               <ProjectRootPage/>

@@ -3,3 +3,30 @@
 .color-preview-value {
   @include carbon--type-style('code-01');
 }
+
+.ColorPreviewImage{
+  width: 8rem;
+  height: 8rem;
+  background-color: var(--preview-color);
+  cursor: pointer;
+  position: relative;
+
+  &:before {
+    content: '';
+    box-shadow: var(--preview-color) 0 0 1rem 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+
+  &:hover {
+    filter: brightness(95%);
+
+    &:before {
+      opacity: 0.5;
+    }
+  }
+}

@@ -1,0 +1,39 @@
+@import "~@carbon/elements/scss/motion/motion";
+@import "~@carbon/elements/scss/colors/colors";
+
+.ProjectRoot {
+  position: relative;
+
+
+  .Content {
+    max-width: calc(100% - 20rem);
+    margin-left: auto;
+    margin-right: auto;
+    transition: $moderate-01 all carbon--motion(standard, productive);
+  }
+
+  .Tool {
+    padding: 1rem;
+    background: $carbon--gray-100;
+    color: $white-0;
+    position: absolute;
+    top: -2rem;
+    right: -2rem;
+    width: 20rem;
+    transform: translateX(20rem);
+    transition-delay: $fast-02;
+    transition: $moderate-02 all carbon--motion(standard, productive);
+    height: calc(100% + 4rem);
+
+  }
+
+  &.ToolOpen {
+    .Content {
+      transform: translateX(-10rem);
+    }
+
+    .Tool {
+      transform: translateX(0);
+    }
+  }
+}

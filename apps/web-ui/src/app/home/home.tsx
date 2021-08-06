@@ -1,9 +1,9 @@
 import './home.module.scss';
 import SplitRow from '../layout/split-row';
 import { Add16 } from '@carbon/icons-react';
-import { Button, ClickableTile, Modal, TextInput, Tile } from 'carbon-components-react';
+import { Button, ClickableTile, Modal, TextInput } from 'carbon-components-react';
 import GridRow from '../layout/grid-row';
-import { createRef, useContext, useEffect, useRef, useState } from 'react';
+import { createRef, useContext, useEffect, useState } from 'react';
 import DataContext from '../data/data';
 import { ProjectEntry } from '@colorstream/web-data';
 import { useHistory } from 'react-router-dom';

@@ -24,8 +24,7 @@ export function AppHeader() {
 
   useEffect(() => {
     data.get_projects().then((pros) => {
-      console.log(pros)
-      setProjects(pros)
+      setProjects(pros);
     });
   }, [data]);
 

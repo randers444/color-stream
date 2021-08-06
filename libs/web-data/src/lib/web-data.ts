@@ -1,88 +1,31 @@
-import { DBSchema, IDBPDatabase, openDB } from 'idb';
+import { openDB } from 'idb';
 import { Observable } from 'rxjs';
 import { first, shareReplay } from 'rxjs/operators';
-import { nanoid } from 'nanoid';
+import { ColorDB, DB } from './schema';
+import { create_color, get_colors_project } from './color.operations';
+import { DBOperation, Operation } from './operation';
+import { create_project, get_project, get_projects } from './project.operations';
 
-export function webData(): string {
-  return 'web-data';
-}
-
-interface DBStore<T> {
-  key: string;
-  value: T;
-}
-
-interface ColorDB extends DBSchema {
-  color: DBStore<ColorEntry> & { indexes: { 'by-project': string }; }
-  project: DBStore<ProjectEntry>
-}
-
-export interface Identified {
-  id: string;
-}
-
-export interface ColorEntry extends Identified {
-  name: string;
-  snapshot_value: string;
-  project: string;
-  family: string;
-  variant?: string;
-}
-
-export interface ProjectEntry extends Identified {
-  name: string;
-}
-
-export type DB = IDBPDatabase<ColorDB>;
 
 export class DataSource {
-  _db$ = new Observable<DB>(sub => {
-    this.initDb().then((it: DB) => sub.next(it));
-  }).pipe(shareReplay(1));
+  // Operations
+  public readonly create_color = this.install(create_color);
+  public readonly get_colors_project = this.install(get_colors_project);
+  public readonly get_projects = this.install(get_projects);
+  public readonly get_project = this.install(get_project);
+  public readonly create_project = this.install(create_project);
+  private _db$: Observable<DB>;
 
   constructor() {
-    console.log(
-      'ds constructor'
-    );
-    //
-    // this.getDb().then(async () => {
-    //   const project = await this.create_project({ name: 'Test Project 1' });
-    //   await this.create_color({project: project.id, snapshot_value:'red', family:'default'});
-    //   await this.create_color({project: project.id, snapshot_value:'blue', family:'default'});
-    // });
-
+    this._db$ = new Observable<DB>(
+      sub => {
+        this.initDb().then((it: DB) => sub.next(it));
+      })
+      .pipe(shareReplay(1));
   }
 
-  async create_color(entry: Omit<ColorEntry, 'id'>) {
-    const db = await this.getDb();
-    const id = nanoid();
-    const value = { ...entry, id };
-    await db.add('color', value, id);
-    return value;
-  }
-
-  async get_colors_project(project_id: string): Promise<ColorEntry[]> {
-    const db = await this.getDb();
-    return await db.getAllFromIndex('color', 'by-project', project_id);
-  }
-
-  async get_projects(): Promise<ProjectEntry[]> {
-    const db = await this.getDb();
-    return db.getAll('project');
-  }
-
-  async get_project(project_id: string): Promise<ProjectEntry | undefined> {
-    const db = await this.getDb();
-    return await db.get('project', project_id);
-  }
-
-  async create_project(entry: Omit<ProjectEntry, 'id'>) {
-    const db = await this.getDb();
-    // const id = '1';
-    const id = nanoid();
-    const value = { ...entry, id };
-    await db.add('project', value, id);
-    return value;
+  private install<In, Out>(operation: DBOperation<In, Out>): Operation<In, Out> {
+    return (async inArg => operation(await this.getDb())(inArg));
   }
 
   private getDb(): Promise<DB> {
@@ -90,10 +33,9 @@ export class DataSource {
     // return firstValueFrom(this._db$);
   }
 
-  private async initDb(): Promise<IDBPDatabase<ColorDB>> {
-    console.log('init db');
-    // await deleteDB('color-stream-web');
-    const db = await openDB<ColorDB>('color-stream-web', 1, {
+  // noinspection JSMethodCanBeStatic
+  private async initDb(): Promise<DB> {
+    return await openDB<ColorDB>('color-stream-web', 1, {
       upgrade(db, oldVersion) {
         if (oldVersion < 1) {
           const color_store = db.createObjectStore('color');
@@ -103,6 +45,5 @@ export class DataSource {
         }
       }
     });
-    return db;
   }
 }
