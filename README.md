@@ -7,8 +7,9 @@ TODO: Get an Icon or something
 TODO: Write an actual README  
 
 # Goals
-- A modern interface for manipulating color schemes by creating and manipulating relationships 
+- A modern interface for manipulating color schemes by creating and manipulating relationships
 - A reasonable reactive svg library, good for the last step of transforming data into svg objects
+- Multi-tab sync and persistence
 
 ## Contributing
 TODO: Contributing Readme
